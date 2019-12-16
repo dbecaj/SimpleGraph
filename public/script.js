@@ -1,6 +1,20 @@
-SVG.on(document, 'DOMContentLoaded', () => {
-    //var draw = SVG().addTo('drawing').size(300, 300)
-    //var rect = draw.rect(100, 100).attr({ fill: '#f06' })
-    var draw = SVG().addTo('#drawing').size(300, 300)
-    var rect = draw.rect(100, 100).attr({ fill: '#f06' })
+document.addEventListener('DOMContentLoaded', (event) => {
+    var s = Snap("#svg")
+
+    var rect = s.rect(100, 100, 100, 100);
+
+    var move = function(dx,dy) {
+        this.attr({
+            transform: this.data('origTransform') + (this.data('origTransform') ? "T" : "t") + [dx, dy]
+        });
+    }
+
+    var start = function() {
+        this.data('origTransform', this.transform().local );
+    }
+    var stop = function() {
+        console.log('finished dragging');
+    }
+
+    rect.drag(move, start, stop );
 })
